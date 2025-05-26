@@ -9,7 +9,7 @@ class ExerciseQueryDict(TypedDict):
     courseId: str
 
 
-class ExerciseCreateDict(TypedDict):
+class ExerciseCreateRequestDict(TypedDict):
     title: str
     courseId: str
     maxScore: str
@@ -19,7 +19,7 @@ class ExerciseCreateDict(TypedDict):
     estimatedTime: str
     
 
-class ExerciseUpdateDict(TypedDict):
+class ExerciseUpdateRequestDict(TypedDict):
     title: str | None
     courseId: str | None
     maxScore: str | None
@@ -52,7 +52,7 @@ class ExercisesClient(APIClient):
         """
         return self.get(f"/api/v1/exercises/{exercise_id}")
 
-    def create_exercises_api(self, request: ExerciseCreateDict) -> Response:
+    def create_exercises_api(self, request: ExerciseCreateRequestDict) -> Response:
         """
         Метод создания задания.
 
@@ -61,7 +61,7 @@ class ExercisesClient(APIClient):
         """
         return self.post("/api/v1/exercises/", json=request)
 
-    def update_exercises_api(self, request: ExerciseUpdateDict) -> Response:
+    def update_exercises_api(self, request: ExerciseUpdateRequestDict) -> Response:
         """
         Метод обновления задания.
 
