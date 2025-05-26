@@ -45,7 +45,6 @@ create_course_request = CreateCourseRequestDict(
     createdByUserId=create_user_response['user']['id']
 )
 create_course_response = courses_client.create_course(create_course_request)
-print(create_course_response)
 create_exercise_request = ExerciseCreateRequestDict(
     title="Первое задания", 
     courseId=create_course_response["course"]["id"],
