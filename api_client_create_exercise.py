@@ -18,8 +18,8 @@ create_user_request = CreateUserRequestDict(
 create_user_response = public_users_client.create_user(create_user_request)
 
 authentication_user = AuthenticationUserDict(
-    email=create_user_request['email'],
-    password=create_user_request['password']
+    email=create_user_request["email"],
+    password=create_user_request["password"]
 )
 private_users_client = get_private_http_client(authentication_user)
 courses_client = get_courses_client(authentication_user)
@@ -41,14 +41,14 @@ create_course_request = CreateCourseRequestDict(
     minScore=10,
     description="Python API course",
     estimatedTime="2 weeks",
-    previewFileId=create_file_response['file']['id'],
-    createdByUserId=create_user_response['user']['id']
+    previewFileId=create_file_response["file"]["id"],
+    createdByUserId=create_user_response["user"]["id"]
 )
 create_course_response = courses_client.create_course(create_course_request)
 create_exercise_request = ExerciseCreateRequestDict(
-    title="Первое задания", 
+    title="Первое задание", 
     courseId=create_course_response["course"]["id"],
-     minScore="10",
+    minScore="10",
     maxScore="100",
     orderIndex="1",
     description="Super description",
