@@ -19,8 +19,8 @@ get_user_headers = {
     "Authorization": f"Bearer {login_response.json()["token"]["accessToken"]}"
 }
 
-update_user_response = httpx.get(f"http://localhost:8001/api/v1/users/me", headers=get_user_headers)
+get_user_data_response = httpx.get(f"http://localhost:8001/api/v1/users/me", headers=get_user_headers)
 
-assert update_user_response.status_code == 200
-print(update_user_response.status_code)
-print(update_user_response.json())
+assert get_user_data_response.status_code == 200
+print(get_user_data_response.status_code)
+print(get_user_data_response.json())
