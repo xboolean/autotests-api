@@ -1,53 +1,15 @@
-from typing import TypedDict
-
 from httpx import Response
 
 from ..api_client import APIClient
+from .exercise_schema import (
+    CreateExerciseResponseSchema,
+    CreateExerciseRequestSchema,
+    UpdateExerciseRequestSchema,
+    GetExercisesQuerySchema,
+    GetExercisesResponseSchema
+)
 from clients.private_http_builder import get_private_http_client
-from clients.private_http_builder import AuthenticationUserDict
-
-
-class Exercise(TypedDict):
-    """
-    Описание структуры задания
-    """
-
-    id: str
-    title: str
-    courseId: str
-    maxScore: str
-    minScore: str
-    orderIndex: str
-    description: str
-    estimatedTime: str
-
-
-class GetExercisesQueryDict(TypedDict):
-    courseId: str
-
-
-class ExerciseCreateRequestDict(TypedDict):
-    title: str
-    courseId: str
-    maxScore: str
-    minScore: str
-    orderIndex: str
-    description: str
-    estimatedTime: str
-    
-
-class ExerciseUpdateRequestDict(TypedDict):
-    title: str | None
-    courseId: str | None
-    maxScore: str | None
-    minScore: str | None
-    orderIndex: str | None
-    description: str | None
-    estimatedTime: str | None
-
-
-class GetExercisesResponseDict(TypedDict):
-    exercises: list[Exercise]
+from clients.private_http_builder import AuthenticationUserSchema
 
 
 class ExercisesClient(APIClient):
@@ -55,7 +17,7 @@ class ExercisesClient(APIClient):
     Клиент для работы с /api/v1/exercises
     """
 
-    def get_exercises_api(self, request: GetExercisesQueryDict) -> Response:
+    def get_exercises_api(self, request: GetExercisesQuerySchema) -> Response:
         """
         Метод получения списка заданий по идентификатору курса.
 
@@ -73,23 +35,23 @@ class ExercisesClient(APIClient):
         """
         return self.get(f"/api/v1/exercises/{exercise_id}")
 
-    def create_exercises_api(self, request: ExerciseCreateRequestDict) -> Response:
+    def create_exercises_api(self, request: CreateExerciseRequestSchema) -> Response:
         """
         Метод создания задания.
 
         :param request: Словарь с title, courseId, maxScore, minScore, orderIndex, description, estimatedTime.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post("/api/v1/exercises", json=request)
+        return self.post("/api/v1/exercises", json=request.model_dump(by_alias=True))
 
-    def update_exercises_api(self, request: ExerciseUpdateRequestDict) -> Response:
+    def update_exercises_api(self, request: UpdateExerciseRequestSchema) -> Response:
         """
         Метод обновления задания.
 
         :param request: Словарь с title, courseId, maxScore, minScore, orderIndex, description, estimatedTime.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.patch("/api/v1/exercises", json=request)
+        return self.patch("/api/v1/exercises", json=request.model_dump(by_alias=True))
 
     def delete_exercise_api(self, exercise_id: str) -> Response:
         """
@@ -100,16 +62,17 @@ class ExercisesClient(APIClient):
         """
         return self.delete(f"/api/v1/exercises/{exercise_id}")
     
-    def get_exercises(self, query: GetExercisesQueryDict) -> GetExercisesResponseDict:
+    def get_exercises(self, query: GetExercisesQuerySchema) -> GetExercisesResponseSchema:
         response = self.get_exercises_api(query)
-        return response.json()
+        return GetExercisesResponseSchema.model_validate_json(response.text)
     
-    def create_exercise(self, request: ExerciseCreateRequestDict) -> Exercise:
+    def create_exercise(self, request: CreateExerciseRequestSchema) -> CreateExerciseResponseSchema:
         response = self.create_exercises_api(request)
-        return response.json()
-    
+        print(response.text)
+        return CreateExerciseResponseSchema.model_validate_json(response.text)
 
-def get_exercise_client(user: AuthenticationUserDict) -> ExercisesClient:
+
+def get_exercise_client(user: AuthenticationUserSchema) -> ExercisesClient:
     """
     Функция создаёт экземпляр AuthenticationClient с уже настроенным HTTP-клиентом.
 
