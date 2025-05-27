@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, ConfigDict
 
+
 class UserSchema(BaseModel):
     """
     Описание структуры пользователя.

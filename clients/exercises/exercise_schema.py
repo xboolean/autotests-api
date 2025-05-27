@@ -55,6 +55,21 @@ class CreateExerciseResponseSchema(BaseModel):
     exercise: ExerciseSchema
 
 
+class GetExerciseResponseSchema(BaseModel):
+    """
+    Описание структуры на получение задания
+    """
+
+    id: str
+    title: str
+    course_id: str = Field(alias="courseId")
+    max_score: int = Field(alias="maxScore")
+    min_score: int = Field(alias="minScore")
+    order_index: int = Field(alias="orderIndex")
+    description: str
+    estimated_time: str = Field(alias="estimatedTime")
+
+
 class GetExercisesQuerySchema(BaseModel):
     """
     Описание структуры запроса на получение списка заданий.

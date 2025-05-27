@@ -1,9 +1,7 @@
-from typing import TypedDict
-
 from httpx import Response
 
 from clients.api_client import APIClient
-from ..http_builder import get_public_http_client
+from clients.http_builder import get_public_http_client
 from .users_schema import (
     CreateUserRequestSchema,
     CreateUserResponseSchema,
@@ -22,12 +20,10 @@ class PublicUsersClient(APIClient):
         :param request: Словарь с email, password, lastName, firstName, middleName.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        print(request.model_dump(by_alias=True))
         return self.post("/api/v1/users", json=request.model_dump(by_alias=True))
 
     def create_user(self, request: CreateUserRequestSchema) -> CreateUserResponseSchema:
         response = self.create_user_api(request)
-        print(response.text)
         return CreateUserResponseSchema.model_validate_json(response.text)
 
 
