@@ -4,37 +4,7 @@ from httpx import Response
 
 from clients.api_client import APIClient
 from clients.public_http_builder import get_public_http_client
-
-
-class TokenSchema(BaseModel):
-    """
-    Описание структуры аутентификационных токенов.
-    """
-    tokenType: str
-    accessToken: str
-    refreshToken: str
-
-
-class LoginRequestSchema(BaseModel):
-    """
-    Описание структуры запроса на аутентификацию.
-    """
-    email: str
-    password: str
-
-
-class LoginResponseSchema(BaseModel):
-    """
-    Описание структуры ответа аутентификации.
-    """
-    token: TokenSchema
-    
-
-class RefreshRequestSchema(BaseModel):
-    """
-    Описание структуры запроса для обновления токена.
-    """
-    refreshToken: str
+from .authentication_schema import LoginRequestSchema, RefreshRequestSchema, LoginResponseSchema
 
 
 class AuthenticationClient(APIClient):
