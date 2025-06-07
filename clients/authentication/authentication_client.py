@@ -31,8 +31,8 @@ class AuthenticationClient(APIClient):
         return self.post("/api/v1/authentication/refresh", json=request)
 
     def login(self, request: LoginRequestSchema) -> LoginResponseSchema:
-        response = self.login_api(request)  # Отправляем запрос на аутентификацию
-        return LoginResponseSchema.model_validate_json(response.text) # Извлекаем JSON из ответа
+        response = self.login_api(request)
+        return LoginResponseSchema.model_validate_json(response.text)
     
 
 def get_authentication_client() -> AuthenticationClient:
