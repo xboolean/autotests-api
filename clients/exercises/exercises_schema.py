@@ -70,6 +70,13 @@ class GetExerciseResponseSchema(BaseModel):
     estimated_time: str = Field(alias="estimatedTime")
 
 
+class UpdateExerciseResponseSchema(BaseModel):
+    """
+    Тип данных для ответа на запрос обновления информации об упражнении.
+    """
+    exercise: ExerciseSchema
+
+
 class GetExercisesQuerySchema(BaseModel):
     """
     Описание структуры запроса на получение списка заданий.
