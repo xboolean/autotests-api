@@ -5,7 +5,7 @@ from ..users.users_schema import UserSchema
 from tools.fakers import fake
 
 
-class Course(BaseModel):
+class CourseSchema(BaseModel):
     """
     Описание структуры курса.
     """
@@ -48,7 +48,7 @@ class CreateCourseResponseSchema(BaseModel):
     Описание структуры ответа создания курса.
     """
     
-    course: Course
+    course: CourseSchema
 
 
 class UpdateCourseRequestSchema(BaseModel):
@@ -64,9 +64,16 @@ class UpdateCourseRequestSchema(BaseModel):
     estimated_time: str | None = Field(alias="estimatedTime", default_factory=fake.estimated_time)
 
 
+class UpdateCourseResponseSchema(BaseModel):
+    """
+    Описание структуры ответа обновления курса.
+    """
+    course: CourseSchema
+    
+
 class GetCoursesResponseSchema(BaseModel):
     """
     Описание структуры ответа на получение списка курсов.
     """
 
-    courses: list[Course]
+    courses: list[CourseSchema]
