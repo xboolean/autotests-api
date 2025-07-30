@@ -37,7 +37,7 @@ class ExercisesClient(APIClient):
         """
         return self.get(f"/api/v1/exercises/{exercise_id}")
 
-    def create_exercises_api(self, request: CreateExerciseRequestSchema) -> Response:
+    def create_exercise_api(self, request: CreateExerciseRequestSchema) -> Response:
         """
         Метод создания задания.
 
@@ -46,14 +46,14 @@ class ExercisesClient(APIClient):
         """
         return self.post("/api/v1/exercises", json=request.model_dump(by_alias=True))
 
-    def update_exercises_api(self, request: UpdateExerciseRequestSchema) -> Response:
+    def update_exercises_api(self, exercise_id: str, request: UpdateExerciseRequestSchema) -> Response:
         """
         Метод обновления задания.
 
         :param request: Словарь с title, courseId, maxScore, minScore, orderIndex, description, estimatedTime.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.patch("/api/v1/exercises", json=request.model_dump(by_alias=True))
+        return self.patch(f"/api/v1/exercises/{exercise_id}", json=request.model_dump(by_alias=True))
 
     def delete_exercise_api(self, exercise_id: str) -> Response:
         """
@@ -73,7 +73,7 @@ class ExercisesClient(APIClient):
         return GetExerciseResponseSchema.model_validate_json(response.text)
     
     def create_exercise(self, request: CreateExerciseRequestSchema) -> CreateExerciseResponseSchema:
-        response = self.create_exercises_api(request)
+        response = self.create_exercise_api(request)
         return CreateExerciseResponseSchema.model_validate_json(response.text)
     
     def update_exercise(self, exercise_id: str, request: UpdateExerciseRequestSchema) -> UpdateExerciseResponseSchema:
