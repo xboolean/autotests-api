@@ -4,9 +4,11 @@ import pytest
 from clients.exercises.exercises_client import ExercisesClient
 from clients.exercises.exercises_schema import CreateExerciseRequestSchema, CreateExerciseResponseSchema
 from fixtures.courses import CourseFixture
+from fixtures.exercises import ExerciseFixture
 from tools.assertions.base import assert_status_code
-from tools.assertions.exercises import assert_create_exercise_response
+from tools.assertions.exercises import assert_create_exercise_response, assert_get_exercise_response
 from tools.assertions.schema import validate_json_schema
+
 
 @pytest.mark.exercises
 @pytest.mark.regression
